@@ -1,0 +1,15 @@
+{
+  "name": "test_automation",
+  "version": "1.0.0",
+  "description": "test for viessmann",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "cypress": "^6.3.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "michal mincberg",
+  "license": "ISC"
+}
