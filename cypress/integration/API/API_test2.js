@@ -11,6 +11,8 @@ describe('API TEST', function() {
            expect(response.body.support).have.property('text')
            expect(response).to.have.property('status', 200)
            expect(response.body).to.not.be.null
+       
+       
         });
     });
 
@@ -26,19 +28,21 @@ describe('API TEST', function() {
                expect(response.body.support).to.have.property('text')
                expect(response).to.have.property('status', 200)
                expect(response.body).to.not.be.null
-               const FirsNameV =  response.body.data[0].first_name
+               expect(response.body.data[0].first_name).to.eq('Michael')
+               
                //test
             });
         });
 
         it('POST - create user',function () {
+            cy.log(Cypress.env('name'))
             cy.request({
             method : 'POST',
             url : 'https://reqres.in/api/users',
             body : {
 
-                'name': 'michal',
-                'job': 'test automation engineer'
+                'name': Cypress.env('name'),
+                'job': Cypress.env('job'),
 
             },
 
