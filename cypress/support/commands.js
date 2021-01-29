@@ -31,175 +31,65 @@ Cypress.Commands.add("LogIn" , () => {
     cy.wait(5000)
 }),
 
-Cypress.Commands.add("CreateNewDataSet", (TypeOfDataSet) => { 
-    cy.wait(1000)
-    cy.xpath('//*[@class="dropdown-toggle nav-link" and contains(text(), "Dataset")]').click({force: true});
-    cy.xpath('//*[@class="dropdown-item"and contains(text(), " - '+TypeOfDataSet+'")]').click({force: true});
+
+Cypress.Commands.add("multiplication", (val1, val2, res) => { 
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val1+'")]').click({force: true});    
+    cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"x")]').click({force: true});    
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val2+'")]').click({force: true});  
+    cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"=")]').click({force: true}); 
+    cy.wait(1000) 
+    cy.xpath('//*[@class="component-display"]').should('have.text,"'+res+'"') 
+
 })
 
-Cypress.Commands.add("TitleAndDescription", (sumamryText, descText) => { 
-    cy.wait(1000)
-    cy.get('[id="version-summary-title"]').type(sumamryText);
-    cy.get('textarea').type(descText);
+Cypress.Commands.add("addition", (val1, val2, res) => { 
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val1+'")]').click({force: true});    
+    cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"+")]').click({force: true});    
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val2+'")]').click({force: true});  
+    cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"=")]').click({force: true}); 
+    cy.wait(1000) 
+  //  cy.xpath('//*[@class="component-display"]').should('have.text', '4') 
+
 })
 
-Cypress.Commands.add("SetElementValue", (id,value) => { 
+Cypress.Commands.add("subtraction", (val1, val2, res) => { 
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val1+'")]').click({force: true});    
+    cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"-")]').click({force: true});    
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val2+'")]').click({force: true});  
+    cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"=")]').click({force: true}); 
+    cy.wait(1000) 
+  //  cy.xpath('//*[@class="component-display"]').should('have.text', '4') 
 
-    cy.get('[id="'+id+'"]').should('be.visible')
-    cy.get('[id="'+id+'"]').should('be.exist')
-    cy.get('[id="'+id+'"]').click().contains(value).click();
 })
 
-Cypress.Commands.add("SetElementValueNew", (id,value) => { 
 
-    if (value !== null) {
-        cy.get('[id="'+id+'"]').should('be.visible')
-        cy.get('[id="'+id+'"]').should('be.exist')
-        cy.get('[id="'+id+'"]').click().contains(value).click();
-      } 
-})
-
-Cypress.Commands.add("ClearFilterAfterSearching", (value) => { 
-    cy.wait(1000)
-    cy.xpath('//div[starts-with(@class,"tags_clearAll__")]//*[contains(text(),"Clear Search")]').click({force: true});
-    cy.xpath('//div[starts-with(@class,"filterInput_title__")]//*[contains(text(),"'+ value+ '")]').click({force: true});
-   // cy.xpath('//div[starts-with(@class,"filterInput_title__")]//*[contains(text(),"Creator")]').click({force: true});
-    cy.wait(1000)
-})
-
-Cypress.Commands.add("ClearSearch", (value) => { 
-    cy.wait(1000)
-    cy.xpath('//div[starts-with(@class,"tags_clearAll__")]//*[contains(text(),"Clear Search")]').click({force: true});
-    cy.wait(1000)
-})
-
-Cypress.Commands.add("ExpandFacet", (value) => { 
-    cy.wait(500)
-    cy.xpath('//div[starts-with(@class,"filterInput_title__")]//*[contains(text(),"' + value + '")]').click({force: true});
-    cy.wait(500)
-})
-
-Cypress.Commands.add("ClickEnterOnSearch", () => { 
-    cy.wait(500)
-    cy.xpath('//*[@id="search-input"]').type('{enter}').trigger('input')
-    cy.wait(1000)
-})
-
-Cypress.Commands.add("Search", (value) => { 
-    cy.wait(500)
-    cy.xpath('//*[@id="search-input"]').type(value)
-})
-
-Cypress.Commands.add("ClickFacetValueenAndSearch", (value) => { 
-    cy.wait(500)
-    cy.xpath('//*[@id="' + value + '"]').should('be.visible')
-    cy.xpath('//*[@id="' + value + '"]').click({force: true});
-    cy.wait(500)
-   
-})
-
-Cypress.Commands.add("MultiSelect", (field, value) => { 
-    if (value !== null) {
-        cy.wait(500)
-        cy.xpath('//*[@id="' + field + '"]').type(value)
-        cy.wait(1000)
-        cy.xpath('//*[@id="' + field + '_listbox_active_option" and contains(text(), "' + value + '")]').click({force: true});
-    }
-})
-Cypress.Commands.add("SelectFacet", (value) => { 
-    cy.wait(500)
-   // cy.xpath('//div[starts-with(@class,"filterInput_title__")]//*[contains(text(),"' + field + '")]').click({force: true});
-    cy.xpath('//div[starts-with(@class,"checkListItem_checkListItem__3CyXv")]//*[contains(text(),"'+value+'")]').click()
-    cy.wait(500)
-})
-//div[starts-with(@class,"checkListItem_checkListItem__3CyXv")]//*[contains(text(),"ADaM")]
-
-
-Cypress.Commands.add("ClickFacetNew", (facet) => { 
-var facet
-switch (facet) {
-    
-    case "Dataset Type":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(1) > div > div:nth-child(2) > span').click({force: true});
-    break;
-    
-    case "Study":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(2) > div > div:nth-child(2) > span').click({force: true});
-    break;
-
-    case "Data Model":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(3) > div > div:nth-child(2) > span').click({force: true});
-    break;
-
-    case "Privacy":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(4) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "SDTMv Domain":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(5) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "Data Category":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(6) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "Data Classification":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(7) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "Use or Show Case":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(8) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "Format":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(9) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "Data Model Version":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(10) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "Retrieved From":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(11) > div > div:nth-child(2) > span').click({force: true});
-	break;
-    
-    case "Document Category":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(12) > div > div:nth-child(2) > span').click({force: true});
-	break;
-
-    case "ADaM Dataset Code":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(13) > div > div:nth-child(2) > span').click({force: true});
-	break;
-
-    case "Published":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(14) > div > div:nth-child(2) > span').click({force: true});
-	break;
-
-    case "Minor Versions":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(15) > div > div:nth-child(2) > span').click({force: true});
-	break;
-
-    case "Study Indication":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(16) > div > div:nth-child(2) > span').click({force: true});
-	break;
-
-    case "Therapeutic Area":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(17) > div > div:nth-child(2) > span').click({force: true});
-	break;
-
-    case "Molecule":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(18) > div > div:nth-child(2) > span').click({force: true});
-	break;
-
-    case "Creator":
-    cy.get('#root > div.routing_content__3Bk2x > div > section > div > div:nth-child(19) > div > div:nth-child(2) > span').click({force: true});
-    break;
-
-
-
-
+Cypress.Commands.add("calculation", (val1,val2,res, mathType) => { 
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val1+'")]').click({force: true});  
+    var mathType
+    switch (mathType) {       
+        case "multiplication":
+            cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"x")]').click({force: true});  
+        break;
         
-  default:
-    text = "No value found";
-}
-})
+        case "addition":
+            cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"+")]').click({force: true});  
+        break;
+
+        case "subtraction":
+           cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"-")]').click({force: true});  
+            break;
+      
+        case "division":
+            cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"÷")]').click({force: true});  
+            break;
+
+      default:
+        text = "No value found";
+    }
+    cy.xpath('//div[starts-with(@class,"component-button")]//*[contains(text(),"'+val2+'")]').click({force: true});  
+    cy.xpath('//div[starts-with(@class,"component-button orange")]//*[contains(text(),"=")]').click({force: true}); 
+    cy.wait(1000) 
+   // cy.xpath('//*[@class="component-display"]').should('have.text','"'+res+'"') 
+    cy.xpath('//*[@class="component-display"]').contains(res)
+
+    })
