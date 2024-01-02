@@ -27,7 +27,7 @@ it('TC2 - multiplication', () => {
 
 it('TC2 - addition', () => {
 
-    cy.calculation(2,2,4,'addition')
+    cy.calculation(2,2,4,'additionaaaa')
 
 })
 
